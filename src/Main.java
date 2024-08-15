@@ -1,25 +1,28 @@
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Scanner;
-import java.util.Set;
+import java.util.*;
 
 public class Main {
-
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String[] array1 = scanner.nextLine().split(" ");
-        String[] array2 = scanner.nextLine().split(" ");
-        common(array1, array2);
-    }
-
-    public static void common(String[] array1, String[] array2) {
-        Set<String> set1 = new HashSet<>();
-        Collections.addAll(set1, array1);
-
-        for (String element : array2) {
-            if (set1.contains(element)) {
-                System.out.print(element + " ");
+        int n = Integer.parseInt(scanner.nextLine());
+        int[] red = new int[n];
+        int[] blue = new int[n];
+        for (int i = 0; i < n; i++) {
+            int[] array = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+            if (i % 2 == 0) {
+                red[i] = array[0];
+                blue[i] = array[1];
+            } else {
+                red[i] = array[1];
+                blue[i] = array[0];
             }
+        }
+
+        for (int j : red) {
+            System.out.print(j+" ");
+        }
+        System.out.println();
+        for (int j : blue) {
+            System.out.print(j+" ");
         }
     }
 }
