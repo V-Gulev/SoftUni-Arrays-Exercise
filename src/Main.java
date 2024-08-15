@@ -3,20 +3,24 @@ import java.util.*;
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int[] firstArray = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
-        int rotations = Integer.parseInt(scanner.nextLine());
-        firstArray = rotate(firstArray, rotations);
-        for (int j : firstArray) {
-            System.out.print(j + " ");
-        }
+        int[] array = Arrays.stream(scanner.nextLine().split(" ")).mapToInt(Integer::parseInt).toArray();
+        topInts(array);
     }
 
-    public static int[] rotate(int[] array, int rotations) {
+    public static void topInts(int[] array) {
         int n = array.length;
-        int[] rotatedArray = new int[n];
-        for (int i = 0; i < n; i++) {
-            rotatedArray[i] = array[(i + rotations) % n];
+        List<Integer> topIntegers = new ArrayList<>();
+        int maxFromRight = array[n - 1];
+        topIntegers.add(maxFromRight);
+        for (int i = n - 2; i >= 0; i--) {
+            if (array[i] > maxFromRight) {
+                maxFromRight = array[i];
+                topIntegers.add(maxFromRight);
+            }
         }
-        return rotatedArray;
+        Collections.reverse(topIntegers);
+        for (int top : topIntegers) {
+            System.out.print(top + " ");
+        }
     }
 }
