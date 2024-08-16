@@ -1,26 +1,33 @@
 import java.util.*;
 
 public class Main {
+    public static int[] arrayFromInput(String s) {
+
+        String[] items = s.split(" ");
+        int[] numbers = new int[items.length];
+
+        for (int i = 0; i < numbers.length; i++) {
+            numbers[i] = Integer.parseInt(items[i]);
+        }
+        return numbers;
+    }
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int[] numbers = arrayFromInput(scanner.nextLine());
+        int finalValue = Integer.parseInt(scanner.nextLine());
 
-        String numbers = scanner.nextLine();
-        String[] symbols = numbers.split(" ");
-        int[] array = new int[symbols.length];
+        int sum;
 
-        for (int i = 0; i < array.length; i++) {
-            array[i] = Integer.parseInt(symbols[i]);
-        }
-
-
-        while (array.length>1) {
-            int[] condensed = new int[array.length - 1];
-            for (int i = 0; i < array.length - 1; i++) {
-                condensed[i] = array[i] + array[i + 1];
+        for (int i = 0; i < numbers.length - 1; i++) {
+            for (int j = i+1; j < numbers.length ; j++) {
+                sum = numbers[i] + numbers[j];
+                if (sum == finalValue) {
+                    System.out.println(numbers[i] + " " + numbers[j]);
+                }
             }
-            array = condensed;
         }
 
-        System.out.println(array[0]);
+
     }
 }
