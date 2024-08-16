@@ -1,46 +1,58 @@
 import java.util.Scanner;
 
 public class Main {
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        String[] stringNumbers = scanner.nextLine().split(" ");
-        int[] array = new int[stringNumbers.length];
-        for (int i = 0; i < array.length; i++) {
-            array[i] = Integer.parseInt(stringNumbers[i]);
-        }
-        int maxLISLength = 0;
-        int index = 0;
-        if (array.length == 1) {
-            System.out.println(array.length);
-        } else {
-            int[] len = new int[array.length];
-            int[] prev = new int[array.length];
+        int length = Integer.parseInt(scanner.nextLine());
+        int bestSampleIndex = 0;
+        int bestSum = 0;
+        int bestSubLength = 0;
+        int bestStartIndex = length;
+        String bestSequence = "";
+        int sampleIndex = 0;
 
-            for (int i = 0; i < array.length; i++) {
-                len[i] = 1;
-                prev[i] = -1;
+        while (true) {
+            String input = scanner.nextLine();
+            if (input.equals("Clone them!")) {
+                break;
+            }
+            sampleIndex++;
+            String[] parts = input.split("!+");
+            int[] dnaSequence = new int[length];
+            int sum = 0;
+            for (int i = 0; i < parts.length; i++) {
+                dnaSequence[i] = Integer.parseInt(parts[i]);
+                sum += dnaSequence[i];
+            }
 
-                for (int j = 0; j < i; j++) {
-                    if (array[j] < array[i] && len[j] + 1 > len[i]) {
-                        len[i] = len[j] + 1;
-                        prev[i] = j;
+            int currentSubLength = 0;
+            int currentStartIndex = length;
+            int maxSubLength = 0;
+            int startIndex = 0;
+
+            for (int i = 0; i < dnaSequence.length; i++) {
+                if (dnaSequence[i] == 1) {
+                    if (currentSubLength == 0) {
+                        currentStartIndex = i;
                     }
-                }
-                if (len[i] > maxLISLength) {
-                    maxLISLength = len[i];
-                    index = i;
-                }
+                    currentSubLength++;
+                    if (currentSubLength > maxSubLength) {
+                        maxSubLength = currentSubLength;
+                        startIndex = currentStartIndex;
+                    }
+                } else currentSubLength = 0;
             }
-            int[] longestIncreasingSequence = new int[maxLISLength];
-            int resultIndex = maxLISLength - 1;
-            while (index != -1) {
-                longestIncreasingSequence[resultIndex] = array[index];
-                index = prev[index];
-                resultIndex--;
+            if (maxSubLength > bestSubLength || (maxSubLength == bestSubLength && startIndex < bestStartIndex) || (maxSubLength == bestSubLength && startIndex == bestStartIndex && sum > bestSum)) {
+                bestSum = sum;
+                bestStartIndex = startIndex;
+                bestSampleIndex = sampleIndex;
+                bestSubLength = maxSubLength;
+                bestSequence = String.join(" ", parts);
             }
-            for (int j : longestIncreasingSequence) {
-                System.out.print(j + " ");
-            }
+
         }
+
+        System.out.printf("Best DNA sample %d with sum: %d.%n%s", bestSampleIndex, bestSum, bestSequence);
     }
 }
