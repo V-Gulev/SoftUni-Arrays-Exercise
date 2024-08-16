@@ -14,41 +14,42 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int peopleWaitingToGetOn = Integer.parseInt(scanner.nextLine());
         int[] numbers = arrayFromInput(scanner.nextLine());
+        int adder;
 
-
-        while (true) {
-            String command = scanner.nextLine();
-            if (command.equals("end")) {
-                break;
-            }
-            String[] action = command.split(" ");
-
-            switch (action[0]) {
-                case "swap":
-                    int index1 = Integer.parseInt(action[1]);
-                    int index2 = Integer.parseInt(action[2]);
-                    int swapper = numbers[index1];
-                    numbers[index1] = numbers[index2];
-                    numbers[index2] = swapper;
-                    break;
-                case "multiply":
-                    index1 = Integer.parseInt(action[1]);
-                    index2 = Integer.parseInt(action[2]);
-                    numbers[index1] = numbers[index1] * numbers[index2];
-                    break;
-                case "decrease":
-                    for (int i = 0; i < numbers.length; i++) {
-                        numbers[i]=numbers[i]-1;
-                    }
-                    break;
-            }
-        }
         for (int i = 0; i < numbers.length; i++) {
-            System.out.print(numbers[i]);
-            if (i < numbers.length - 1) {
-                System.out.print(", ");
+            if (peopleWaitingToGetOn >= 4) {
+                adder = 4 - numbers[i];
+                numbers[i] += adder;
+                peopleWaitingToGetOn -= adder;
+            } else if (peopleWaitingToGetOn > 0) {
+                adder = 4 - numbers[i];
+                if (adder>=peopleWaitingToGetOn){
+                    numbers[i] += peopleWaitingToGetOn;
+                    peopleWaitingToGetOn = 0;
+                }else {
+                    numbers[i] += adder;
+                    peopleWaitingToGetOn-=adder;
+                }
             }
         }
+        if (peopleWaitingToGetOn > 0) {
+            System.out.printf("There isn't enough space! %d people in a queue!", peopleWaitingToGetOn);
+            System.out.println();
+            for (int j : numbers) {
+                System.out.print(j + " ");
+            }
+        } else if (numbers[numbers.length - 1] == 4) {
+            for (int j : numbers) {
+                System.out.print(j + " ");
+            }
+        } else {
+            System.out.println("The lift has empty spots!");
+            for (int j : numbers) {
+                System.out.print(j + " ");
+            }
+        }
+
     }
 }
