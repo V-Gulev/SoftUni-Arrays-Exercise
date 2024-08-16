@@ -12,32 +12,15 @@ public class Main {
             array[i] = Integer.parseInt(symbols[i]);
         }
 
-        int totalSum = 0;
-        for (int j : array) {
-            totalSum += j;
-        }
 
-        int leftsum = 0;
-        int rightSum;
-        boolean isThereAnIndex = true;
-
-        if (array.length == 1 || array.length == 0) {
-            System.out.println(0);
-            isThereAnIndex= false;
-        } else {
+        while (array.length>1) {
+            int[] condensed = new int[array.length - 1];
             for (int i = 0; i < array.length - 1; i++) {
-                rightSum = totalSum - array[i] - leftsum;
-                leftsum = totalSum - array[i] - rightSum;
-                if (leftsum == rightSum) {
-                    System.out.println(i);
-                    isThereAnIndex = false;
-                    break;
-                }
-                leftsum += array[i];
+                condensed[i] = array[i] + array[i + 1];
             }
+            array = condensed;
         }
-        if (isThereAnIndex){
-            System.out.println("no");
-        }
+
+        System.out.println(array[0]);
     }
 }
