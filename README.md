@@ -1,1 +1,1 @@
-Arrays Exercise
+SoftUni Arrays Exercise
